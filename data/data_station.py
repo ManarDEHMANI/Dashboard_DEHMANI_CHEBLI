@@ -12,7 +12,18 @@ response = requests.get(url)
 data = response.json()
 
 # Initialisation d'une liste csv_data qui représente les noms des colonnes du fichier csv
-csv_data = [["Latitude", "Longitude", "Station", "Departement", "Region", "Annee"]]
+csv_data = [
+    [
+        "Latitude",
+        "Longitude",
+        "Station",
+        "Departement",
+        "Region",
+        "Annee",
+        "Supercifie_Topographique",
+        "Supercifie_Reelle",
+    ]
+]
 
 # Parcours des données de stations de l'API
 for station in data["data"]:
@@ -23,10 +34,23 @@ for station in data["data"]:
     departement = station["libelle_departement"]
     region = station["libelle_region"]
     annee = station["date_mise_en_service"]
+    supercifie_topo = station["superficie_topo"]
+    supercifie = station["superficie_reelle"]
     # Exclusion des stations avec une région égale à %% (région non défini)
     if region != "%%":
         # Ajout des informations à la liste csv_data
-        csv_data.append([latitude, longitude, station_name, departement, region, annee])
+        csv_data.append(
+            [
+                latitude,
+                longitude,
+                station_name,
+                departement,
+                region,
+                annee,
+                supercifie_topo,
+                supercifie,
+            ]
+        )
 
 # Définition du chemin du fichier CSV de sortie
 csv_file_path = os.path.join("data", "stations_data.csv")
