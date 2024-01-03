@@ -1,10 +1,10 @@
 # function.py
 import dash
-from data.get_data import station, impact
+from data.get_data import station, produits, desired_aliments, desired_materials
 import plotly.express as px
 
 df = station()
-dataf = impact()
+dataf = produits()
 
 
 def update_map_and_selectors(selected_region, selected_dept):
@@ -97,21 +97,80 @@ def update_histogram_superficie(_):
     return histogram_superficie_fig
 
 
-def update_histogram_cout_energetique(_):
-    desired_materials = {"Verre", "Papier", "Carton", "Aluminium", "Pas d'emballage"}
+def update_histogram_cout_energetique(selected_material):
     df_filtered = dataf[dataf["Matériau_d'emballage"].isin(desired_materials)]
-    histogram_cout_energetique = px.histogram(
-        df_filtered,
-        x="Score_unique_EF",
-        color="Matériau_d'emballage",
-        barmode="group",
-    )
-    histogram_cout_energetique.update_layout(
-        title=dict(
-            text="Coût Energétique par matériau d'emballage",
-            font=dict(color="#e74c3c", size=20),
-            x=0.5,
-        ),
-        bargap=0.1,
-    )
+    if selected_material == "Tous" or selected_material is None:
+        histogram_cout_energetique = px.histogram(
+            df_filtered,
+            x="Score_unique_EF",
+            color="Matériau_d'emballage",
+            nbins=30,
+            barmode="group",
+        )
+        histogram_cout_energetique.update_layout(
+            title=dict(
+                text="Coût Energétique par matériau d'emballage",
+                font=dict(color="#e74c3c", size=20),
+                x=0.5,
+            ),
+            bargap=0.1,
+        )
+    else:
+        df_filtered_material = dataf[dataf["Matériau_d'emballage"] == selected_material]
+        histogram_cout_energetique = px.histogram(
+            df_filtered_material,
+            x="Score_unique_EF",
+            color="Matériau_d'emballage",
+            nbins=30,
+            barmode="group",
+        )
+        histogram_cout_energetique.update_layout(
+            title=dict(
+                text=f"Coût Energétique par matériau d'emballage : {selected_material}",
+                font=dict(color="#e74c3c", size=20),
+                x=0.5,
+            ),
+            bargap=0.1,
+        )
     return histogram_cout_energetique
+
+
+def update_histogram_eutrophisation_sol(selected_group):
+    df_filtered = dataf[dataf["Groupe_d'aliment"].isin(desired_aliments)]
+    if selected_group == "Tous" or selected_group is None:
+        histogram_eutrophisation_sol = px.histogram(
+            df_filtered,
+            x="Eutrophisation_terrestre",
+            y="Utilisation_du_sol",
+            nbins=30,
+            color="Groupe_d'aliment",
+            title="Relation entre l'Eutrophisation Terrestre et l'Utilisation du Sol",
+            barmode="group",
+        )
+        histogram_eutrophisation_sol.update_layout(
+            title=dict(
+                font=dict(color="#e74c3c", size=20),
+                x=0.5,
+            ),
+            bargap=0.1,
+        )
+    else:
+        df_filtered_group = dataf[dataf["Groupe_d'aliment"] == selected_group]
+        histogram_eutrophisation_sol = px.histogram(
+            df_filtered_group,
+            x="Eutrophisation_terrestre",
+            y="Utilisation_du_sol",
+            nbins=30,
+            color="Groupe_d'aliment",
+            title=f"Relation entre l'Eutrophisation Terrestre et l'Utilisation du Sol={selected_group}",
+            barmode="group",
+        )
+        histogram_eutrophisation_sol.update_layout(
+            title=dict(
+                font=dict(color="#e74c3c", size=20),
+                x=0.5,
+            ),
+            bargap=0.1,
+        )
+
+    return histogram_eutrophisation_sol

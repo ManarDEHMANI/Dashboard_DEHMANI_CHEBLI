@@ -10,23 +10,52 @@ from components.function import (
     update_histogram,
     update_histogram_superficie,
     update_histogram_cout_energetique,
+    update_histogram_eutrophisation_sol,
 )
-from data.get_data import station
+from data.get_data import station, produits, desired_aliments, desired_materials
 import plotly.express as px
 
 df = station()
-
+dataf = produits()
 region_options = [{"label": "Toutes les Régions", "value": "Toutes"}] + [
     {"label": r, "value": r} for r in df["Region"].unique()
 ]
 dept_options = [{"label": "Tous les Départements", "value": "Tous"}] + [
     {"label": d, "value": d} for d in df["Departement"].unique()
 ]
+materiaux_options = [{"label": "Tous les matériaux d'emballlages", "value": "Tous"}] + [
+    {"label": m, "value": m} for m in desired_materials
+]
+group_options = [{"label": "Tous les groupes d'aliments", "value": "Tous"}] + [
+    {"label": g, "value": g} for g in desired_aliments
+]
 # Création des dropdowns pour sélectionner une région et un département
 region_dropdown = dcc.Dropdown(
     id="region-dropdown",
     options=region_options,
     value="Toutes",
+    clearable=False,
+    style={"width": "50%", "margin": "auto"},
+)
+dept_dropdown = dcc.Dropdown(
+    id="dept-dropdown",
+    options=dept_options,
+    value="Tous",
+    clearable=False,
+    style={"width": "50%", "margin": "auto"},
+)
+material_dropdown = dcc.Dropdown(
+    id="material-dropdown",
+    options=materiaux_options,
+    value="Tous",
+    clearable=False,
+    style={"width": "50%", "margin": "auto"},
+)
+
+group_dropdown = dcc.Dropdown(
+    id="groupe-dropdown",
+    options=group_options,
+    value="Tous",
     clearable=False,
     style={"width": "50%", "margin": "auto"},
 )
@@ -45,13 +74,6 @@ year_slider = dcc.RangeSlider(
     step=1,
     marks={str(year): str(year) for year in years_with_step},
     value=[df["annee_mise_en_service"].min(), df["annee_mise_en_service"].max()],
-)
-dept_dropdown = dcc.Dropdown(
-    id="dept-dropdown",
-    options=dept_options,
-    value="Tous",
-    clearable=False,
-    style={"width": "50%", "margin": "auto"},
 )
 
 
@@ -93,8 +115,18 @@ def histo_superficie(_):
 @app.callback(
     Output(component_id="cout_energetique", component_property="figure"),
     # Ne pas utiliser selected_years pour filtrer les données
-    Input(component_id="cout_energetique", component_property="figure"),
+    Input(component_id="material-dropdown", component_property="value"),
 )
-def histo_cout_energetique(_):
-    data_cout_energetique = update_histogram_cout_energetique(_)
+def histo_cout_energetique(selected_material):
+    data_cout_energetique = update_histogram_cout_energetique(selected_material)
     return data_cout_energetique
+
+
+@app.callback(
+    Output(component_id="impact-climat-utilisation-sol", component_property="figure"),
+    # Ne pas utiliser selected_years pour filtrer les données
+    Input(component_id="groupe-dropdown", component_property="value"),
+)
+def histo_eutrophisation_sol(selected_group):
+    data_climat_sol = update_histogram_eutrophisation_sol(selected_group)
+    return data_climat_sol

@@ -4,7 +4,13 @@ from dash.dependencies import Input, Output
 import plotly.express as px
 from dash import html, dcc
 import pandas as pd
-from components.callbacks import region_dropdown, dept_dropdown, year_slider
+from components.callbacks import (
+    region_dropdown,
+    dept_dropdown,
+    year_slider,
+    material_dropdown,
+    group_dropdown,
+)
 
 # Définition du layout (structure) de l'application
 layout_DashBoard = html.Div(
@@ -28,7 +34,10 @@ layout_DashBoard = html.Div(
             ],
             style={"display": "flex", "justify-content": "center"},
         ),
-        html.Div([dcc.Graph(id="cout_energetique", figure={})]),
+        html.Div(material_dropdown),
+        html.Div(dcc.Graph(id="cout_energetique", figure={})),
+        html.Div(group_dropdown),
+        html.Div(dcc.Graph(id="impact-climat-utilisation-sol", figure={})),
     ],
     style={
         "text-align": "center",
