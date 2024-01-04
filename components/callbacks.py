@@ -11,8 +11,15 @@ from components.function import (
     update_histogram_superficie,
     update_histogram_cout_energetique,
     update_histogram_eutrophisation_sol,
+    update_histogram_impact_climat_ozone,
 )
-from data.get_data import station, produits, desired_aliments, desired_materials
+from data.get_data import (
+    station,
+    produits,
+    desired_aliments,
+    desired_materials,
+    desired_sous_group,
+)
 import plotly.express as px
 
 df = station()
@@ -29,6 +36,11 @@ materiaux_options = [{"label": "Tous les matériaux d'emballlages", "value": "To
 group_options = [{"label": "Tous les groupes d'aliments", "value": "Tous"}] + [
     {"label": g, "value": g} for g in desired_aliments
 ]
+
+sous_group_options = [
+    {"label": "Tous les sous groupes d'aliments", "value": "Tous"}
+] + [{"label": sous_g, "value": sous_g} for sous_g in desired_sous_group]
+
 # Création des dropdowns pour sélectionner une région et un département
 region_dropdown = dcc.Dropdown(
     id="region-dropdown",
@@ -55,6 +67,14 @@ material_dropdown = dcc.Dropdown(
 group_dropdown = dcc.Dropdown(
     id="groupe-dropdown",
     options=group_options,
+    value="Tous",
+    clearable=False,
+    style={"width": "50%", "margin": "auto"},
+)
+
+sous_group_dropdown = dcc.Dropdown(
+    id="sous_groupe-dropdown",
+    options=sous_group_options,
     value="Tous",
     clearable=False,
     style={"width": "50%", "margin": "auto"},
@@ -130,3 +150,12 @@ def histo_cout_energetique(selected_material):
 def histo_eutrophisation_sol(selected_group):
     data_climat_sol = update_histogram_eutrophisation_sol(selected_group)
     return data_climat_sol
+
+
+@app.callback(
+    Output(component_id="impact-climat-ozone", component_property="figure"),
+    Input(component_id="sous_groupe-dropdown", component_property="value"),
+)
+def histo_impact_climat_ozone(selected_sous_group):
+    data_climat_ozone = update_histogram_impact_climat_ozone(selected_sous_group)
+    return data_climat_ozone

@@ -1,6 +1,12 @@
 # function.py
 import dash
-from data.get_data import station, produits, desired_aliments, desired_materials
+from data.get_data import (
+    station,
+    produits,
+    desired_aliments,
+    desired_materials,
+    desired_sous_group,
+)
 import plotly.express as px
 
 df = station()
@@ -174,3 +180,44 @@ def update_histogram_eutrophisation_sol(selected_group):
         )
 
     return histogram_eutrophisation_sol
+
+
+def update_histogram_impact_climat_ozone(selected_sous_group):
+    df_filtered = dataf[dataf["Sous-groupe_d'aliment"].isin(desired_sous_group)]
+    if selected_sous_group == "Tous" or selected_sous_group is None:
+        histogram_climat_ozone = px.histogram(
+            df_filtered,
+            x="Changement_climatique",
+            y="Appauvrissement_de_la_couche_d'ozone",
+            color="Sous-groupe_d'aliment",
+            title="Changement Climatique vs. Impact sur la Couche d'Ozone",
+            barmode="group",
+        )
+        histogram_climat_ozone.update_layout(
+            title=dict(
+                font=dict(color="#e74c3c", size=20),
+                x=0.5,
+            ),
+            bargap=0.1,
+        )
+    else:
+        df_filtered_sous_group = dataf[
+            dataf["Sous-groupe_d'aliment"] == selected_sous_group
+        ]
+        histogram_climat_ozone = px.histogram(
+            df_filtered_sous_group,
+            x="Changement_climatique",
+            y="Appauvrissement_de_la_couche_d'ozone",
+            color="Sous-groupe_d'aliment",
+            title=f"Changement Climatique vs. Impact sur la Couche d'Ozone={selected_sous_group}",
+            barmode="group",
+        )
+        histogram_climat_ozone.update_layout(
+            title=dict(
+                font=dict(color="#e74c3c", size=20),
+                x=0.5,
+            ),
+            bargap=0.1,
+        )
+
+    return histogram_climat_ozone

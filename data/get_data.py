@@ -17,6 +17,17 @@ def produits():
     return dataf
 
 
+desired_sous_group = {
+    "herbes",
+    "algues",
+    "fruits",
+    "poissons cuits",
+    "gâteaux et pâtisseries",
+    "céréales de petit-déjeuner et biscuits",
+    "sauces",
+    "épices",
+    "ingrédients divers",
+}
 desired_aliments = {
     "fruits,légumes,légumineuses et oléagineux",
     "lait et produits laitiers",
