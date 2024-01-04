@@ -1,29 +1,13 @@
 # callbacks.py
-import dash
+import components.function
+import data.get_data
 from dash.dependencies import Input, Output
-import plotly.express as px
-from dash import html, dcc
-import pandas as pd
+from dash import dcc
 from app import app
-from components.function import (
-    update_map_and_selectors,
-    update_histogram,
-    update_histogram_superficie,
-    update_histogram_cout_energetique,
-    update_histogram_eutrophisation_sol,
-    update_histogram_impact_climat_ozone,
-)
-from data.get_data import (
-    station,
-    produits,
-    desired_aliments,
-    desired_materials,
-    desired_sous_group,
-)
-import plotly.express as px
 
-df = station()
-dataf = produits()
+df = data.get_data.station()
+dataf = data.get_data.produits()
+
 region_options = [{"label": "Toutes les Régions", "value": "Toutes"}] + [
     {"label": r, "value": r} for r in df["Region"].unique()
 ]
@@ -31,15 +15,15 @@ dept_options = [{"label": "Tous les Départements", "value": "Tous"}] + [
     {"label": d, "value": d} for d in df["Departement"].unique()
 ]
 materiaux_options = [{"label": "Tous les matériaux d'emballlages", "value": "Tous"}] + [
-    {"label": m, "value": m} for m in desired_materials
+    {"label": m, "value": m} for m in data.get_data.desired_materials
 ]
 group_options = [{"label": "Tous les groupes d'aliments", "value": "Tous"}] + [
-    {"label": g, "value": g} for g in desired_aliments
+    {"label": g, "value": g} for g in data.get_data.desired_aliments
 ]
 
 sous_group_options = [
     {"label": "Tous les sous groupes d'aliments", "value": "Tous"}
-] + [{"label": sous_g, "value": sous_g} for sous_g in desired_sous_group]
+] + [{"label": sous_g, "value": sous_g} for sous_g in data.get_data.desired_sous_group]
 
 # Création des dropdowns pour sélectionner une région et un département
 region_dropdown = dcc.Dropdown(
@@ -109,7 +93,9 @@ year_slider = dcc.RangeSlider(
     ],
 )
 def maps(selected_region, selected_dept):
-    data_map = update_map_and_selectors(selected_region, selected_dept)
+    data_map = components.function.update_map_and_selectors(
+        selected_region, selected_dept
+    )
     return data_map
 
 
@@ -118,7 +104,7 @@ def maps(selected_region, selected_dept):
     Input(component_id="range-slider-year", component_property="value"),
 )
 def histo_year(selected_years):
-    data_year = update_histogram(selected_years)
+    data_year = components.function.update_histogram(selected_years)
     return data_year
 
 
@@ -128,7 +114,7 @@ def histo_year(selected_years):
     Input(component_id="hist_superficie", component_property="figure"),
 )
 def histo_superficie(_):
-    data_supercifie = update_histogram_superficie(_)
+    data_supercifie = components.function.update_histogram_superficie(_)
     return data_supercifie
 
 
@@ -138,7 +124,9 @@ def histo_superficie(_):
     Input(component_id="material-dropdown", component_property="value"),
 )
 def histo_cout_energetique(selected_material):
-    data_cout_energetique = update_histogram_cout_energetique(selected_material)
+    data_cout_energetique = components.function.update_histogram_cout_energetique(
+        selected_material
+    )
     return data_cout_energetique
 
 
@@ -148,7 +136,9 @@ def histo_cout_energetique(selected_material):
     Input(component_id="groupe-dropdown", component_property="value"),
 )
 def histo_eutrophisation_sol(selected_group):
-    data_climat_sol = update_histogram_eutrophisation_sol(selected_group)
+    data_climat_sol = components.function.update_histogram_eutrophisation_sol(
+        selected_group
+    )
     return data_climat_sol
 
 
@@ -157,5 +147,7 @@ def histo_eutrophisation_sol(selected_group):
     Input(component_id="sous_groupe-dropdown", component_property="value"),
 )
 def histo_impact_climat_ozone(selected_sous_group):
-    data_climat_ozone = update_histogram_impact_climat_ozone(selected_sous_group)
+    data_climat_ozone = components.function.update_histogram_impact_climat_ozone(
+        selected_sous_group
+    )
     return data_climat_ozone

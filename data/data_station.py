@@ -21,7 +21,6 @@ csv_data = [
         "Region",
         "Annee",
         "Supercifie_Topographique",
-        "Supercifie_Reelle",
     ]
 ]
 
@@ -35,7 +34,6 @@ for station in data["data"]:
     region = station["libelle_region"]
     annee = station["date_mise_en_service"]
     supercifie_topo = station["superficie_topo"]
-    supercifie = station["superficie_reelle"]
     # Exclusion des stations avec une région égale à %% (région non défini)
     if region != "%%":
         # Ajout des informations à la liste csv_data
@@ -48,12 +46,11 @@ for station in data["data"]:
                 region,
                 annee,
                 supercifie_topo,
-                supercifie,
             ]
         )
 
 # Définition du chemin du fichier CSV de sortie
-csv_file_path = os.path.join("data", "stations_data.csv")
+csv_file_path = os.path.join("stations_data.csv")
 
 # Ouverture du fichier CSV en mode lecture et écriture
 with open(csv_file_path, "w+", newline="") as csvfile:

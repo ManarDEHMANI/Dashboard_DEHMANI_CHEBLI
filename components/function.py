@@ -1,16 +1,15 @@
 # function.py
 import dash
 from data.get_data import (
-    station,
-    produits,
     desired_aliments,
     desired_materials,
     desired_sous_group,
 )
 import plotly.express as px
+import data.get_data
 
-df = station()
-dataf = produits()
+df = data.get_data.station()
+dataf = data.get_data.produits()
 
 
 def update_map_and_selectors(selected_region, selected_dept):
@@ -83,7 +82,6 @@ def update_histogram(selected_years):
 
 
 def update_histogram_superficie(_):
-    # Ne pas utiliser selected_years pour filtrer les données
     histogram_superficie_fig = px.histogram(
         df,
         x="Supercifie_Topographique",
@@ -105,119 +103,94 @@ def update_histogram_superficie(_):
 
 def update_histogram_cout_energetique(selected_material):
     df_filtered = dataf[dataf["Matériau_d'emballage"].isin(desired_materials)]
-    if selected_material == "Tous" or selected_material is None:
-        histogram_cout_energetique = px.histogram(
-            df_filtered,
-            x="Score_unique_EF",
-            color="Matériau_d'emballage",
-            nbins=30,
-            barmode="group",
-        )
-        histogram_cout_energetique.update_layout(
-            title=dict(
-                text="Coût Energétique par matériau d'emballage",
-                font=dict(color="#e74c3c", size=20),
-                x=0.5,
-            ),
-            bargap=0.1,
-        )
-    else:
-        df_filtered_material = dataf[dataf["Matériau_d'emballage"] == selected_material]
-        histogram_cout_energetique = px.histogram(
-            df_filtered_material,
-            x="Score_unique_EF",
-            color="Matériau_d'emballage",
-            nbins=30,
-            barmode="group",
-        )
-        histogram_cout_energetique.update_layout(
-            title=dict(
-                text=f"Coût Energétique par matériau d'emballage : {selected_material}",
-                font=dict(color="#e74c3c", size=20),
-                x=0.5,
-            ),
-            bargap=0.1,
-        )
+
+    if selected_material and selected_material != "Tous":
+        df_filtered = df_filtered[
+            df_filtered["Matériau_d'emballage"] == selected_material
+        ]
+
+    histogram_cout_energetique = px.histogram(
+        df_filtered,
+        x="Score_unique_EF",
+        color="Matériau_d'emballage",
+        nbins=30,
+        barmode="group",
+    )
+
+    title_text = "Coût Energétique par matériau d'emballage"
+    if selected_material and selected_material != "Tous":
+        title_text += f" : {selected_material}"
+
+    histogram_cout_energetique.update_layout(
+        title=dict(
+            text=title_text,
+            font=dict(color="#e74c3c", size=20),
+            x=0.5,
+        ),
+        bargap=0.1,
+    )
+
     return histogram_cout_energetique
 
 
 def update_histogram_eutrophisation_sol(selected_group):
     df_filtered = dataf[dataf["Groupe_d'aliment"].isin(desired_aliments)]
-    if selected_group == "Tous" or selected_group is None:
-        histogram_eutrophisation_sol = px.histogram(
-            df_filtered,
-            x="Eutrophisation_terrestre",
-            y="Utilisation_du_sol",
-            nbins=30,
-            color="Groupe_d'aliment",
-            title="Relation entre l'Eutrophisation Terrestre et l'Utilisation du Sol",
-            barmode="group",
-        )
-        histogram_eutrophisation_sol.update_layout(
-            title=dict(
-                font=dict(color="#e74c3c", size=20),
-                x=0.5,
-            ),
-            bargap=0.1,
-        )
-    else:
-        df_filtered_group = dataf[dataf["Groupe_d'aliment"] == selected_group]
-        histogram_eutrophisation_sol = px.histogram(
-            df_filtered_group,
-            x="Eutrophisation_terrestre",
-            y="Utilisation_du_sol",
-            nbins=30,
-            color="Groupe_d'aliment",
-            title=f"Relation entre l'Eutrophisation Terrestre et l'Utilisation du Sol={selected_group}",
-            barmode="group",
-        )
-        histogram_eutrophisation_sol.update_layout(
-            title=dict(
-                font=dict(color="#e74c3c", size=20),
-                x=0.5,
-            ),
-            bargap=0.1,
-        )
+
+    if selected_group and selected_group != "Tous":
+        df_filtered = df_filtered[df_filtered["Groupe_d'aliment"] == selected_group]
+
+    title_text = "Relation entre l'Eutrophisation Terrestre et l'Utilisation du Sol"
+    if selected_group and selected_group != "Tous":
+        title_text += f"={selected_group}"
+
+    histogram_eutrophisation_sol = px.histogram(
+        df_filtered,
+        x="Eutrophisation_terrestre",
+        y="Utilisation_du_sol",
+        nbins=30,
+        color="Groupe_d'aliment",
+        title=title_text,
+        barmode="group",
+    )
+
+    histogram_eutrophisation_sol.update_layout(
+        title=dict(
+            font=dict(color="#e74c3c", size=20),
+            x=0.5,
+        ),
+        bargap=0.1,
+    )
 
     return histogram_eutrophisation_sol
 
 
 def update_histogram_impact_climat_ozone(selected_sous_group):
     df_filtered = dataf[dataf["Sous-groupe_d'aliment"].isin(desired_sous_group)]
-    if selected_sous_group == "Tous" or selected_sous_group is None:
-        histogram_climat_ozone = px.histogram(
-            df_filtered,
-            x="Changement_climatique",
-            y="Appauvrissement_de_la_couche_d'ozone",
-            color="Sous-groupe_d'aliment",
-            title="Changement Climatique vs. Impact sur la Couche d'Ozone",
-            barmode="group",
-        )
-        histogram_climat_ozone.update_layout(
-            title=dict(
-                font=dict(color="#e74c3c", size=20),
-                x=0.5,
-            ),
-            bargap=0.1,
-        )
-    else:
-        df_filtered_sous_group = dataf[
-            dataf["Sous-groupe_d'aliment"] == selected_sous_group
+
+    if selected_sous_group and selected_sous_group != "Tous":
+        df_filtered = df_filtered[
+            df_filtered["Sous-groupe_d'aliment"] == selected_sous_group
         ]
-        histogram_climat_ozone = px.histogram(
-            df_filtered_sous_group,
-            x="Changement_climatique",
-            y="Appauvrissement_de_la_couche_d'ozone",
-            color="Sous-groupe_d'aliment",
-            title=f"Changement Climatique vs. Impact sur la Couche d'Ozone={selected_sous_group}",
-            barmode="group",
-        )
-        histogram_climat_ozone.update_layout(
-            title=dict(
-                font=dict(color="#e74c3c", size=20),
-                x=0.5,
-            ),
-            bargap=0.1,
-        )
+
+    title_text = "Changement Climatique vs. Impact sur la Couche d'Ozone"
+    if selected_sous_group and selected_sous_group != "Tous":
+        title_text += f"={selected_sous_group}"
+
+    histogram_climat_ozone = px.histogram(
+        df_filtered,
+        x="Changement_climatique",
+        y="Appauvrissement_de_la_couche_d'ozone",
+        color="Sous-groupe_d'aliment",
+        title=title_text,
+        barmode="group",
+    )
+
+    histogram_climat_ozone.update_layout(
+        title=dict(
+            font=dict(color="#e74c3c", size=20),
+            x=0.5,
+        ),
+        bargap=0.1,
+    )
 
     return histogram_climat_ozone
