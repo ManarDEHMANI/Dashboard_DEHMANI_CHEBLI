@@ -2,21 +2,18 @@
 
 ## Table des Matières
 
+# Dashboard Environnemental
+
+## Table des Matières
+
 - [Introduction](#introduction)
 - [Guide de l'utilisateur](#guide-de-lutilisateur)
 - [Rapport d'analyse](#rapport-danalyse)
-  - [Données Utilisées](#donn\u00e9es-utilis\u00e9es)
-    - [API Hub'Eau - Température des cours d'eau](#api-hubeau---temp\u00e9rature-des-cours-deau)
-    - [API Impacts environnementaux - AGRIBALYSE](#api-impacts-environnementaux---agribalyse)
+  - [Données Utilisées](#donnees-utilisees)
   - [Visualisations du Dashboard](#visualisations-du-dashboard)
-    - [Carte de localisation](#carte-de-localisation)
-    - [Histogrammes](#histogrammes)
-      - [Histogramme de nombre de stations par année de mise en service](#histogramme-de-nombre-de-stations-par-ann\u00e9e-de-mise-en-service)
-      - [Histogramme de distribution de la superficie topographique des stations](#histogramme-de-distribution-de-la-superficie-topographique-des-stations)
-      - [Histogramme Impact Environnemental des Matériaux d'Emballage Évalué par le Score Unique EF](#histogramme-impact-environnemental-des-mat\u00e9riaux-demballage-\u00e9valu\u00e9-par-le-score-unique-ef)
-      - [Histogramme Relation entre l'Eutrophisation Terrestre et l'Utilisation du Sol](#histogramme-relation-entre-leutrophisation-terrestre-et-lutilisation-du-sol)
-      - [Histogramme Influence des Sous-groupes Alimentaires sur le Changement Climatique et l'Appauvrissement de la Couche d'Ozone](#histogramme-influence-des-sous-groupes-alimentaires-sur-le-changement-climatique-et-lappauvrissement-de-la-couche-dozone)
-- [Guide du développeur](#guide-du-d\u00e9veloppeur)
+- [Guide du développeur](#guide-du-developpeur)
+  - [Architecture du projet](#architecture-du-projet)
+  - [Extension du code](#extension-du-code)
 
 ## Introduction
 
@@ -56,7 +53,7 @@ Pour déployer et utiliser ce dashboard sur une votre machine, suivez les étape
 
 ## Rapport d'analyse
 
-### Données Utilisées
+### Donnees Utilisees
 
 #### 1. API Hub'Eau - Température des cours d'eau
 
@@ -131,7 +128,7 @@ Après l'étude du résultat obtenue par l'histogramme,nous pouvons conclure qu'
 Cet histogramme représente l'impact environnemental des sous-groupes alimentaires en termes de changement climatique et d'appauvrissement de la couche d'ozone.
 
 - **L'axe horizontal:** Indique l'impact sur le changement climatique pour chaque sous-groupe alimentaire.
-- **L'axe vertical :**montre l'impact cumulatif de ces sous-groupes alimentaires sur l'appauvrissement de la couche d'ozone.
+- **L'axe vertical :** Montre l'impact cumulatif de ces sous-groupes alimentaires sur l'appauvrissement de la couche d'ozone.
 - **Les barres colorées :** Chaque barre eprésente un sous-groupe alimentaire spécifique et son impact respectif dans les deux dimensions environnementales.
 
 En analysant le résultat de l'histogramme, nous pouvons clairement dire qu'un sous-groupe alimentaire avec une barre verticale élevée mais une valeur faible sur l'axe horizontal indique un impact disproportionné sur la couche d'ozone par rapport à son impact sur le changement climatique et inversement.
@@ -139,3 +136,69 @@ En analysant le résultat de l'histogramme, nous pouvons clairement dire qu'un s
 Par conséquent, il est primordial de revoir les méthodes de production et de consommation pour les aliments qui ont le plus fort impact sur le changement climatique et l'appauvrissement de la couche d'ozone, afin de réduire ces effets néfastes et de soutenir des décisions environnementales plus durables.
 
 ### Guide du développeur
+
+#### Architecture du projet
+
+Notre projet se structure autour de quatre répertoires principaux :
+
+1. **_Pages_** : Ce répertoire contient les fichiers responsables de l'affichage des différentes pages de l'application.
+
+   - `navbar.py` : Crée la barre de navigation, liant les différentes sections du dashboard.
+
+   - `accueil.py` : Contient la structure de la page d'accueil de l'application.
+
+   - `DashBoard.py` : La page principale du dashboard. Ce fichier organise les graphiques interactifs et les sélecteurs de données, créant ainsi l'interface utilisateur centrale pour la visualisation des données environnementales.
+
+2. **_Data_** : Ce répertoire est dédié à la gestion des données et inclut les éléments suivants :
+
+   - `data_station.py` : Ce script est responsable de l'extraction des données nécessaires de l'API Hub'Eau pour les stocker dans un fichier CSV. Nous avons introduit ce fichier car, initialement, lors du lancement de notre application, le serveur prenait beaucoup de temps à répondre. En triant et en stockant les données nécessaires dans un fichier CSV, nous avons pu optimiser significativement les temps de réponse de l'application.
+   - `get_data.py` : Ce fichier est crucial pour la préparation des données. Il offre deux méthodes principales :
+   - La méthode `station` : Elle sert à récupérer les données du fichier CSV créé par `data_station.py`.Les données extraites par cette méthode sont utilisées pour alimenter la carte et les histogrammes 2.1 et 2.2 du dashboard.
+   - La méthode `produit` : Cette méthode extrait les données de l'API AGRIBALYSE. Tout comme avec `station`, les données récupérées sont destinées à être utilisées pour générer les autres histogrammes du dashboard.
+   - En plus de ces méthodes, `get_data.py` contient des ensembles de valeurs prédéfinies pour filtrer les données selon les besoins spécifiques, par exemple pour différents sous-groupes, aliments, ou matériaux.
+   - `stations_data.csv` : Fichier CSV généré par l'exécution de `data_station.py`, contenant les données triées.
+
+3. **_Components_** : Ce répertoire joue un rôle clé dans la gestion des composants interactifs et des fonctionnalités de traitement des données du dashboard. Il contient notamment :
+
+   - `callbacks.py` : Ce fichier est essentiel pour définir les interactions au sein du dashboard. Il utilise les bibliothèques Dash et Plotly pour créer des rappels (callbacks) qui relient les actions de l'utilisateur (comme les sélections dans les menus déroulants ou les glisseurs) aux mises à jour des visualisations de données. Cela inclut la gestion des filtres pour les cartes, les histogrammes, et autres composants visuels interactifs du dashboard.
+
+   - `function.py` : Ce fichier contient les fonctions principales utilisées par les callbacks pour mettre à jour les visualisations. Il s'occupe de traiter et de préparer les données pour les différents graphiques et cartes en fonction des entrées de l'utilisateur. Il tire parti des données préparées par le répertoire _Data_ et les transforme en visualisations interactives en utilisant Plotly.
+
+   Ces fichiers sont cruciaux pour la dynamique interactive du dashboard, permettant aux utilisateurs d'explorer et d'interagir avec les données de manière intuitive et réactive.
+
+4. **_assets_** : ce répertoire est dédiés à tous les images utilisés pour notre dashboard tels que le logo par exemple.
+
+En plus des répertoires mentionnés ci-dessus, notre projet comprend deux fichiers clés qui jouent un rôle crucial dans le lancement et la coordination de l'application :
+
+1. **`main.py`** : Ce fichier sert de point d'entrée principal pour l'application Dashboard. Il est responsable de :
+
+   - L'importation des modules nécessaires de Dash et des layouts de différentes pages.
+   - La définition du layout global de l'application, qui inclut la barre de navigation et le contenu principal de la page.
+   - La mise en place d'un callback pour la navigation dans l'application, permettant de changer le contenu affiché en fonction de l'URL.
+   - Le lancement de l'application Dash en mode débogage.
+
+2. **`app.py`** : Ce fichier est le cœur de la configuration de notre application Dash. Il inclut :
+   - La création de l'instance de l'application Dash avec un thème Bootstrap pour le style.
+   - La configuration du serveur de l'application.
+   - L'activation de la gestion des exceptions dans les callbacks pour une meilleure flexibilité.
+
+Ces deux fichiers sont essentiels pour structurer l'application, gérer la navigation entre les pages et définir le style global du dashboard. Ils sont utilisés ensemble pour s'assurer que l'application fonctionne de manière fluide et cohérente.
+
+#### Extension du Code
+
+Pour développer et étendre davantage le code de notre Dashboard Environnemental, voici quelques suggestions :
+
+1. **Génération d'une Deuxième Carte avec l'API Hub'Eau** :
+   - Utilisez l'opération `chronique` de l'API Hub'Eau, qui permet de rechercher des chroniques (séries temporelles) de températures en continu dans les cours d'eau mesurées aux différentes stations.
+2. **Génération d'autre histogrammes**:
+   - vous pouvez créer des histogramme supplémenatires tels que un histogramme de l'Impact sur l'Eutrophisation des Eaux Douces ou histogramme de distribution de la supercifie topographique des stations etc...
+
+> **Remarque importante sur l'utilisation des données de l'API Hub'Eau** :  
+> Pour optimiser le temps de réponse lors de l'utilisation des données de l'API Hub'Eau, nous avons mis en place un système de prétraitement des données dans le fichier `data_station.py`. Si vous souhaitez récupérer plus de données ou mettre à jour les données existantes, suivez ces étapes :
+>
+> 1. **Modification de `data_station.py`** : Adaptez le script pour qu'il extrait les nouvelles données souhaitées de l'API Hub'Eau.
+> 2. **Exécution de `data_station.py`** : Exécutez le fichier `data_station.py` après modification. Les nouvelles données extraites seront automatiquement ajoutées au fichier `stations_data.csv`.
+> 3. **Mise à jour des données** : Si les données existantes ont été mises à jour sur l'API Hub'Eau, il suffit de réexécuter une fois `data_station.py` pour rafraîchir le fichier `stations_data.csv`.
+> 4. **Lancement de l'application** : Après la mise à jour des données, lancez l'application en exécutant le fichier `main.py`.
+>
+> En suivant ces étapes, vous vous assurez que les données utilisées dans le dashboard sont les plus récentes et les plus pertinentes, tout en maintenant des temps de réponse optimaux pour l'application.
