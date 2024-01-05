@@ -34,7 +34,7 @@ layout_DashBoard = html.Div(
         ),
         html.Div(material_dropdown),  # Sélecteur de matériau d'emballage
         html.Div(
-            dcc.Graph(id="cout_energetique", figure={})
+            dcc.Graph(id="score_material", figure={})
         ),  # Histogramme de coût énergétique
         html.Div(group_dropdown),  # Sélecteur de groupe d'aliments
         html.Div(

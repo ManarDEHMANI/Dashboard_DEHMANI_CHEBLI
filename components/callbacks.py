@@ -119,7 +119,7 @@ def histo_superficie(_):
 
 
 @app.callback(
-    Output(component_id="cout_energetique", component_property="figure"),
+    Output(component_id="score_material", component_property="figure"),
     # Ne pas utiliser selected_years pour filtrer les données
     Input(component_id="material-dropdown", component_property="value"),
 )

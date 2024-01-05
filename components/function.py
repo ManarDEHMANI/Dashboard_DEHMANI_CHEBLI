@@ -117,7 +117,9 @@ def update_histogram_cout_energetique(selected_material):
         barmode="group",
     )
 
-    title_text = "Coût Energétique par matériau d'emballage"
+    title_text = (
+        "Impact Environnemental des Matériaux d'Emballage Évalué par le Score Unique EF"
+    )
     if selected_material and selected_material != "Tous":
         title_text += f" : {selected_material}"
 
