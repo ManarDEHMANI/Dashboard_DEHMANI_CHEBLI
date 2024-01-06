@@ -10,5 +10,6 @@ bootstrap_theme = [
 
 # Création de l'application Dash
 app = dash.Dash(__name__, external_stylesheets=bootstrap_theme)
+
 server = app.server
 app.config.suppress_callback_exceptions = True

@@ -101,12 +101,17 @@ def update_histogram_superficie(_):
         height=600,
         width=1000,
         color_discrete_sequence=["#3498db"],
-        title="Distribution de la supercifie topographique des stations ",
+       # title="Distribution de la supercifie topographique des stations ",
 
     )
 
     histogram_superficie_fig.update_layout(
-        title=title_style,
+         title=dict(
+            text="Distribution de la supercifie topographique des stations ",
+            font=dict(color="#4169E1", size=20),
+            x=0.5,
+        ),
+       # title=title_style,
         bargap=0.1,
         paper_bgcolor='black',  
         plot_bgcolor='black'  
@@ -121,20 +126,19 @@ def update_histogram_cout_energetique(selected_material):
         df_filtered = df_filtered[
             df_filtered["Matériau_d'emballage"] == selected_material
         ]
-
+    title_text ="Impact Environnemental des Matériaux d'Emballage Évalué par le Score Unique EF"
+    if selected_material and selected_material != "Tous":
+        title_text += f" : {selected_material}"
     histogram_cout_energetique = px.histogram(
         df_filtered,
         x="Score_unique_EF",
         color="Matériau_d'emballage",
         nbins=30,
+        title=title_text,
         barmode="group",
     )
 
-    title_text = (
-        "Impact Environnemental des Matériaux d'Emballage Évalué par le Score Unique EF"
-    )
-    if selected_material and selected_material != "Tous":
-        title_text += f" : {selected_material}"
+   
 
     combined_layout = {
         **common_layout,  # Apply common layout settings
@@ -146,9 +150,9 @@ def update_histogram_cout_energetique(selected_material):
     }
 
     # Apply the combined layout to the histogram
-    histogram_cout_energetique.update_layout(**combined_layout)
-
-    return histogram_cout_energetique
+   
+    histogram_cout_energetique
+    return  histogram_cout_energetique.update_layout(**combined_layout)
 
 
 def update_histogram_eutrophisation_sol(selected_group):

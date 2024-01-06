@@ -22,6 +22,7 @@ layout_DashBoard = html.Div(className='custom-row',
             style={
                "width": "100%",
                 "margin": "auto",
+               
             },
             #className='col-6',  # Diviser en deux colonnes
         ),
@@ -36,12 +37,12 @@ layout_DashBoard = html.Div(className='custom-row',
         },
         ),  
 
-        html.Div(year_slider),  # Sélecteur d'année avec slider
+       # html.Div(year_slider),  # Sélecteur d'année avec slider
 
         html.Div(
             [
-                html.Div([dcc.Graph(id="hist_annee", figure={}, responsive=True)],
-                 style={'width': '100%', 'height': '500px','overflow': 'auto'}
+                html.Div([dcc.Graph(id="hist_annee", figure={}, responsive=True),html.Div(year_slider,style={'padding':'10px',})],
+                 style={'padding-bottom':'10px','width': '100%', 'height': '500px','overflow': 'auto'}
                          ),
                 html.Div([dcc.Graph(id="hist_superficie", figure={}, responsive=True)],
                  style={'width': '100%', 'height': '500px', 'overflow': 'auto'}
@@ -52,7 +53,8 @@ layout_DashBoard = html.Div(className='custom-row',
             
         ),
 
-        html.Div(className='bg-black',children=[material_dropdown, group_dropdown], style={'display': 'flex'},),  # Sélecteur de matériaux d'emballage
+        html.Div(className='bg-black',children=[material_dropdown, group_dropdown], style={'display': 'flex',
+        },),  # Sélecteur de matériaux d'emballage
 
         html.Div(
          children= [

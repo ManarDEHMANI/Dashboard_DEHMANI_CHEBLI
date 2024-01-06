@@ -7,6 +7,14 @@ from app import app
 
 df = data.get_data.station()
 dataf = data.get_data.produits()
+dropdown_style = {"width": "50%", "margin": "auto", "color": "White",}
+
+# Define a specific style for the background color
+background_color_style = {'backgroundColor': 'black',"color": "White"}
+
+# Define a specific style for the selected value color
+selected_value_color_style = {'color': 'grey',}  
+
 
 region_options = [{"label": "Toutes les Régions", "value": "Toutes"}] + [
     {"label": r, "value": r} for r in df["Region"].unique()
@@ -22,7 +30,7 @@ group_options = [{"label": "Tous les groupes d'aliments", "value": "Tous"}] + [
 ]
 
 sous_group_options = [
-    {"label": "Tous les sous groupes d'aliments", "value": "Tous"}
+    {"label": "Tous les sous groupes d'aliments", "value": "Tous",}
 ] + [{"label": sous_g, "value": sous_g} for sous_g in data.get_data.desired_sous_group]
 
 # Création des dropdowns pour sélectionner une région et un département
@@ -31,20 +39,24 @@ region_dropdown = dcc.Dropdown(
     options=region_options,
     value="Toutes",
     clearable=False,
-    style={'width': '50%', 'margin': 'auto', 'backgroundColor': 'black', 'color': 'grey'},)
+    style={**dropdown_style, **background_color_style, **selected_value_color_style},
+   # className='custom-dropdown',
+    )
+
 dept_dropdown = dcc.Dropdown(
     id="dept-dropdown",
     options=dept_options,
     value="Tous",
     clearable=False,
-    style={'width': '50%', 'margin': 'auto', 'backgroundColor': 'black', 'color': 'grey'},
+    style={**dropdown_style, **background_color_style, **selected_value_color_style},
 )
 material_dropdown = dcc.Dropdown(
     id="material-dropdown",
     options=materiaux_options,
     value="Tous",
     clearable=False,
-    style={'width': '50%', 'margin': 'auto', 'backgroundColor': 'black', 'color': 'grey'},
+    style={**dropdown_style, **background_color_style, **selected_value_color_style},
+    #className='custom-dropdown',
 )
 
 group_dropdown = dcc.Dropdown(
@@ -52,7 +64,7 @@ group_dropdown = dcc.Dropdown(
     options=group_options,
     value="Tous",
     clearable=False,
-   style={'width': '50%', 'margin': 'auto', 'backgroundColor': 'black', 'color': 'grey'},
+    style={**dropdown_style, **background_color_style, **selected_value_color_style},
    
 )
 
@@ -61,8 +73,8 @@ sous_group_dropdown = dcc.Dropdown(
     options=sous_group_options,
     value="Tous",
     clearable=False,
-   style={'width': '50%', 'margin': 'auto', 'backgroundColor': 'black', 'color': 'grey'},
-    
+        style={**dropdown_style, **background_color_style, **selected_value_color_style},
+
 )
 years_with_step = list(
     range(df["annee_mise_en_service"].min(), df["annee_mise_en_service"].max() + 1, 20)
@@ -159,3 +171,10 @@ def histo_impact_climat_ozone(selected_sous_group):
 def update_text(n):
     text_list = ["Bienvenue sur le tableau de bord environnemental!", "Explorez les données pour découvrir des informations intéressantes.", "Commencez votre voyage maintenant!"]
     return text_list[n % len(text_list)]
+
+
+
+
+
+
+
