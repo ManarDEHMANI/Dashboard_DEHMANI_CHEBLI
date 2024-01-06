@@ -1,14 +1,36 @@
 import dash
 from dash.dependencies import Input, Output
-import pandas as pd
 import plotly.express as px
 from dash import html, dcc
 
 layout_acceuil = html.Div(
-    style={
-        "background-image": 'url("/assets/7609662.jpg")',
-        "background-size": "cover",  # Ajuste la taille de l'image pour couvrir l'élément div
-        "width": "100%",  # Définir la largeur de l'élément div
-        "height": "100vh",  # Définir la hauteur de l'élément div (100vh correspond à 100% de la hauteur de la fenêtre visible)
+style={
+        "background-image": 'url("/assets/dash.jpg")',
+        "background-size": "cover",  
+        "width": "100%",  
+        "height": "100vh", 
+        "color": "white",  
+        "font-size": "24px",
+        "text-align": "center",
+        "display": "flex",  
+        "align-items": "center",
     },
+    children=[
+        html.Div(html.H1(id="animated-text",style={
+           'text-align': 'center',
+            'color': 'white',
+            'display': 'flex',
+            'align-items': 'center',
+            'justify-content': 'center',
+            'margin-right':'50%',
+            'margin-left':'50%',
+            'font-family': 'cursive', 
+
+        })),
+        dcc.Interval(
+            id="interval-component",
+            interval=1000, 
+            n_intervals=0,
+        ),
+    ],
 )

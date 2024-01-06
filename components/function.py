@@ -16,8 +16,8 @@ title_style = {"font": {"color": "#4169E1", "size": 20}, "x": 0.5}
 
 common_layout = {
     "bargap": 0.1,
-    "paper_bgcolor": "rgba(0, 0, 0, 0)",
-    "plot_bgcolor": "rgba(255, 255, 255, 1)",  # Or any other color you prefer
+    "paper_bgcolor": "rgba(0, 0, 0)",
+    "plot_bgcolor": "rgba(0, 0, 0)", 
 }
 
 
@@ -60,7 +60,10 @@ def update_map_and_selectors(selected_region, selected_dept):
         height=600,
         width=1000,
         title=title_style,
-        paper_bgcolor="rgba(0, 0, 0, 0)",
+        paper_bgcolor='black', 
+        plot_bgcolor='black'  ,
+       
+      
     )
     return fig, selected_region, selected_dept
 
@@ -81,11 +84,12 @@ def update_histogram(selected_years):
     histogram_fig.update_layout(
         title=dict(
             text="Nombre de stations par année de mise en service",
-            font=dict(color="#e74c3c", size=20),
+            font=dict(color="#4169E1", size=20),
             x=0.5,
         ),
         bargap=0.1,
-        paper_bgcolor="rgba(0, 0, 0, 0)",
+        paper_bgcolor='black', 
+        plot_bgcolor='black' ,
     )
     return histogram_fig
 
@@ -98,12 +102,14 @@ def update_histogram_superficie(_):
         width=1000,
         color_discrete_sequence=["#3498db"],
         title="Distribution de la supercifie topographique des stations ",
+
     )
 
     histogram_superficie_fig.update_layout(
         title=title_style,
         bargap=0.1,
-        paper_bgcolor="rgba(0, 0, 0, 0)",
+        paper_bgcolor='black',  
+        plot_bgcolor='black'  
     )
     return histogram_superficie_fig
 
@@ -136,6 +142,7 @@ def update_histogram_cout_energetique(selected_material):
             "text": title_text,  # Apply title text
             **title_style,  # Apply title style settings
         },
+        
     }
 
     # Apply the combined layout to the histogram
@@ -199,7 +206,7 @@ def update_histogram_impact_climat_ozone(selected_sous_group):
     )
 
     combined_layout = {
-        **common_layout,  # Apply common layout settings
+        **common_layout,  
         "title": {
             "text": title_text,  # Apply title text
             **title_style,  # Apply title style settings

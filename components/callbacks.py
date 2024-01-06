@@ -31,19 +31,20 @@ region_dropdown = dcc.Dropdown(
     options=region_options,
     value="Toutes",
     clearable=False,
-)
+    style={'width': '50%', 'margin': 'auto', 'backgroundColor': 'black', 'color': 'grey'},)
 dept_dropdown = dcc.Dropdown(
     id="dept-dropdown",
     options=dept_options,
     value="Tous",
     clearable=False,
+    style={'width': '50%', 'margin': 'auto', 'backgroundColor': 'black', 'color': 'grey'},
 )
 material_dropdown = dcc.Dropdown(
     id="material-dropdown",
     options=materiaux_options,
     value="Tous",
     clearable=False,
-    style={"width": "50%", "margin": "auto"},
+    style={'width': '50%', 'margin': 'auto', 'backgroundColor': 'black', 'color': 'grey'},
 )
 
 group_dropdown = dcc.Dropdown(
@@ -51,7 +52,8 @@ group_dropdown = dcc.Dropdown(
     options=group_options,
     value="Tous",
     clearable=False,
-    style={"width": "50%", "margin": "auto"},
+   style={'width': '50%', 'margin': 'auto', 'backgroundColor': 'black', 'color': 'grey'},
+   
 )
 
 sous_group_dropdown = dcc.Dropdown(
@@ -59,7 +61,8 @@ sous_group_dropdown = dcc.Dropdown(
     options=sous_group_options,
     value="Tous",
     clearable=False,
-    style={"width": "50%", "margin": "auto"},
+   style={'width': '50%', 'margin': 'auto', 'backgroundColor': 'black', 'color': 'grey'},
+    
 )
 years_with_step = list(
     range(df["annee_mise_en_service"].min(), df["annee_mise_en_service"].max() + 1, 20)
@@ -149,3 +152,10 @@ def histo_impact_climat_ozone(selected_sous_group):
         selected_sous_group
     )
     return data_climat_ozone
+@app.callback(
+    Output("animated-text", "children"),
+    Input("interval-component", "n_intervals"),
+)
+def update_text(n):
+    text_list = ["Bienvenue sur le tableau de bord environnemental!", "Explorez les données pour découvrir des informations intéressantes.", "Commencez votre voyage maintenant!"]
+    return text_list[n % len(text_list)]
