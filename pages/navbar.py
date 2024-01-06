@@ -2,8 +2,8 @@ from dash import dcc, html
 
 # Définition du style de la barre de navigation
 navbar_style = {
-    "background-color": "black",
-    "padding": "30px",
+    "background-color": "#333",
+    "padding": "10px",
     "text-align": "center",
 }
 
@@ -29,6 +29,3 @@ navbar = html.Nav(
         dcc.Link("Dashboard", href="/dashboard", style=nav_link_style),
     ],
 )
-
-
-

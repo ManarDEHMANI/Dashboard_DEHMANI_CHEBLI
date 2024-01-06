@@ -16,8 +16,37 @@ title_style = {"font": {"color": "#4169E1", "size": 20}, "x": 0.5}
 
 common_layout = {
     "bargap": 0.1,
-    "paper_bgcolor": "rgba(0, 0, 0)",
-    "plot_bgcolor": "rgba(0, 0, 0)", 
+    "paper_bgcolor": "rgba(51, 51, 51, 1)",
+    "plot_bgcolor": "rgba(51, 51, 51, 1)",
+    "legend": {
+        "font": {
+            "size": 12,  # Augmenter cette valeur pour une plus grande taille de légende
+            "color": "#ADD8E6",
+        },
+        "bgcolor": "rgba(51, 51, 51, 1)",
+    },
+    "xaxis": {
+        "title_font": {
+            "size": 16,
+            "color": "#D2691E",
+        },  # Définissez la couleur du titre de l'axe
+        "tickfont": {
+            "size": 14,
+            "color": "#FFFFFF",
+        },  # Définissez la couleur des étiquettes de l'axe
+        "tickcolor": "#FFFFFF",  # Définissez la couleur des ticks de l'axe
+        "linecolor": "#FFFFFF",  # Définissez la couleur de la ligne de l'axe
+        "gridcolor": "#555555",  # Définissez une couleur de grille plus discrète si nécessaire
+        # ... autres propriétés de l'axe ...
+    },
+    "yaxis": {
+        "title_font": {"size": 16, "color": "#D2691E"},  # Même chose pour l'axe des y
+        "tickfont": {"size": 14, "color": "#FFFFFF"},
+        "tickcolor": "#FFFFFF",
+        "linecolor": "#FFFFFF",
+        "gridcolor": "#555555",
+        # ... autres propriétés de l'axe ...
+    },
 }
 
 
@@ -60,10 +89,11 @@ def update_map_and_selectors(selected_region, selected_dept):
         height=600,
         width=1000,
         title=title_style,
-        paper_bgcolor='black', 
-        plot_bgcolor='black'  ,
-       
-      
+        paper_bgcolor="#333333",
+        plot_bgcolor="#333333",
+        legend=dict(
+            font=dict(color="#ADD8E6"),  # Marron terreux pour le texte de la légende
+        ),
     )
     return fig, selected_region, selected_dept
 
@@ -79,18 +109,16 @@ def update_histogram(selected_years):
         height=600,
         width=1000,
         color_discrete_sequence=["#2ecc71"],
+        title="Nombre de stations par année de mise en service",
     )
-
-    histogram_fig.update_layout(
-        title=dict(
-            text="Nombre de stations par année de mise en service",
-            font=dict(color="#4169E1", size=20),
-            x=0.5,
-        ),
-        bargap=0.1,
-        paper_bgcolor='black', 
-        plot_bgcolor='black' ,
-    )
+    combined_layout = {
+        **common_layout,
+        "title": {
+            "text": "Nombre de stations par année de mise en service",  # Apply title text
+            **title_style,  # Apply title style settings
+        },
+    }
+    histogram_fig.update_layout(**combined_layout)
     return histogram_fig
 
 
@@ -101,16 +129,15 @@ def update_histogram_superficie(_):
         height=600,
         width=1000,
         color_discrete_sequence=["#3498db"],
-        title="Distribution de la supercifie topographique des stations ",
-
     )
-
-    histogram_superficie_fig.update_layout(
-        title=title_style,
-        bargap=0.1,
-        paper_bgcolor='black',  
-        plot_bgcolor='black'  
-    )
+    combined_layout = {
+        **common_layout,
+        "title": {
+            "text": "Distribution de la supercifie topographique des stations",  # Apply title text
+            **title_style,  # Apply title style settings
+        },
+    }
+    histogram_superficie_fig.update_layout(**combined_layout)
     return histogram_superficie_fig
 
 
@@ -133,16 +160,12 @@ def update_histogram_cout_energetique(selected_material):
     title_text = (
         "Impact Environnemental des Matériaux d'Emballage Évalué par le Score Unique EF"
     )
-    if selected_material and selected_material != "Tous":
-        title_text += f" : {selected_material}"
-
     combined_layout = {
         **common_layout,  # Apply common layout settings
         "title": {
             "text": title_text,  # Apply title text
             **title_style,  # Apply title style settings
         },
-        
     }
 
     # Apply the combined layout to the histogram
@@ -158,9 +181,6 @@ def update_histogram_eutrophisation_sol(selected_group):
         df_filtered = df_filtered[df_filtered["Groupe_d'aliment"] == selected_group]
 
     title_text = "Relation entre l'Eutrophisation Terrestre et l'Utilisation du Sol"
-    if selected_group and selected_group != "Tous":
-        title_text += f"={selected_group}"
-
     histogram_eutrophisation_sol = px.histogram(
         df_filtered,
         x="Eutrophisation_terrestre",
@@ -179,9 +199,9 @@ def update_histogram_eutrophisation_sol(selected_group):
         },
     }
 
-    histogram_eutrophisation_sol
+    histogram_eutrophisation_sol.update_layout(**combined_layout)
 
-    return histogram_eutrophisation_sol.update_layout(**combined_layout)
+    return histogram_eutrophisation_sol
 
 
 def update_histogram_impact_climat_ozone(selected_sous_group):
@@ -192,9 +212,9 @@ def update_histogram_impact_climat_ozone(selected_sous_group):
             df_filtered["Sous-groupe_d'aliment"] == selected_sous_group
         ]
 
-    title_text = "Changement Climatique vs. Impact sur la Couche d'Ozone"
+    title_text = "Influence des Sous-groupes Alimentaires sur le Changement Climatique et l'Appauvrissement de la Couche d'Ozone"
     if selected_sous_group and selected_sous_group != "Tous":
-        title_text += f"={selected_sous_group}"
+        title_text += f":{selected_sous_group}"
 
     histogram_climat_ozone = px.histogram(
         df_filtered,
@@ -206,7 +226,7 @@ def update_histogram_impact_climat_ozone(selected_sous_group):
     )
 
     combined_layout = {
-        **common_layout,  
+        **common_layout,
         "title": {
             "text": title_text,  # Apply title text
             **title_style,  # Apply title style settings
