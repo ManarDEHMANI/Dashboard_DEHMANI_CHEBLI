@@ -11,6 +11,15 @@ import data.get_data
 df = data.get_data.station()
 dataf = data.get_data.produits()
 
+# Common title style for all figures
+title_style = {"font": {"color": "#4169E1", "size": 20}, "x": 0.5}
+
+common_layout = {
+    "bargap": 0.1,
+    "paper_bgcolor": "rgba(0, 0, 0, 0)",
+    "plot_bgcolor": "rgba(255, 255, 255, 1)",  # Or any other color you prefer
+}
+
 
 def update_map_and_selectors(selected_region, selected_dept):
     trigger = dash.callback_context.triggered[0]["prop_id"].split(".")[0]
@@ -40,6 +49,7 @@ def update_map_and_selectors(selected_region, selected_dept):
         lon="Longitude",
         color="Region",
         hover_data=["Station", "Departement", "Region"],
+        title="Stations de mesure des températures en continu dans les cours d'eau de France",
     )
     fig.update_layout(
         mapbox=dict(
@@ -47,12 +57,10 @@ def update_map_and_selectors(selected_region, selected_dept):
             style="open-street-map",
             zoom=5,
         ),
-        title=dict(
-            text="Stations de mesure des températures en continu dans les cours d'eau de France",
-            font=dict(color="#4169E1", size=20),
-        ),
         height=600,
         width=1000,
+        title=title_style,
+        paper_bgcolor="rgba(0, 0, 0, 0)",
     )
     return fig, selected_region, selected_dept
 
@@ -77,6 +85,7 @@ def update_histogram(selected_years):
             x=0.5,
         ),
         bargap=0.1,
+        paper_bgcolor="rgba(0, 0, 0, 0)",
     )
     return histogram_fig
 
@@ -88,15 +97,13 @@ def update_histogram_superficie(_):
         height=600,
         width=1000,
         color_discrete_sequence=["#3498db"],
+        title="Distribution de la supercifie topographique des stations ",
     )
 
     histogram_superficie_fig.update_layout(
-        title=dict(
-            text="Distribution de la superficie topographique des stations",
-            font=dict(color="#e74c3c", size=20),
-            x=0.5,
-        ),
+        title=title_style,
         bargap=0.1,
+        paper_bgcolor="rgba(0, 0, 0, 0)",
     )
     return histogram_superficie_fig
 
@@ -123,14 +130,16 @@ def update_histogram_cout_energetique(selected_material):
     if selected_material and selected_material != "Tous":
         title_text += f" : {selected_material}"
 
-    histogram_cout_energetique.update_layout(
-        title=dict(
-            text=title_text,
-            font=dict(color="#e74c3c", size=20),
-            x=0.5,
-        ),
-        bargap=0.1,
-    )
+    combined_layout = {
+        **common_layout,  # Apply common layout settings
+        "title": {
+            "text": title_text,  # Apply title text
+            **title_style,  # Apply title style settings
+        },
+    }
+
+    # Apply the combined layout to the histogram
+    histogram_cout_energetique.update_layout(**combined_layout)
 
     return histogram_cout_energetique
 
@@ -155,15 +164,17 @@ def update_histogram_eutrophisation_sol(selected_group):
         barmode="group",
     )
 
-    histogram_eutrophisation_sol.update_layout(
-        title=dict(
-            font=dict(color="#e74c3c", size=20),
-            x=0.5,
-        ),
-        bargap=0.1,
-    )
+    combined_layout = {
+        **common_layout,  # Apply common layout settings
+        "title": {
+            "text": title_text,  # Apply title text
+            **title_style,  # Apply title style settings
+        },
+    }
 
-    return histogram_eutrophisation_sol
+    histogram_eutrophisation_sol
+
+    return histogram_eutrophisation_sol.update_layout(**combined_layout)
 
 
 def update_histogram_impact_climat_ozone(selected_sous_group):
@@ -187,12 +198,12 @@ def update_histogram_impact_climat_ozone(selected_sous_group):
         barmode="group",
     )
 
-    histogram_climat_ozone.update_layout(
-        title=dict(
-            font=dict(color="#e74c3c", size=20),
-            x=0.5,
-        ),
-        bargap=0.1,
-    )
-
+    combined_layout = {
+        **common_layout,  # Apply common layout settings
+        "title": {
+            "text": title_text,  # Apply title text
+            **title_style,  # Apply title style settings
+        },
+    }
+    histogram_climat_ozone.update_layout(**combined_layout)
     return histogram_climat_ozone

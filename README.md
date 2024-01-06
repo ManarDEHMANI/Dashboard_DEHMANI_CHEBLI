@@ -2,10 +2,6 @@
 
 ## Table des Matières
 
-# Dashboard Environnemental
-
-## Table des Matières
-
 - [Introduction](#introduction)
 - [Guide de l'utilisateur](#guide-de-lutilisateur)
 - [Rapport d'analyse](#rapport-danalyse)
@@ -17,7 +13,7 @@
 
 ## Introduction
 
-Le Dashboard Environnemental est un projet visant à fournir une expérience interactive pour explorer des données environnementales de la France à l'aide de représentations graphiques dynamiques, offrant des analyses sur les cours d'eau et les impacts écologiques de la production alimentaire.
+Le Dashboard Environnemental est un projet visant à fournir une expérience intéractive pour explorer des données environnementales de la France à l'aide de représentations graphiques dynamiques, offrant des analyses sur les cours d'eau et les impacts écologiques de la production alimentaire.
 
 ## Guide de l'utilisateur
 
@@ -63,7 +59,7 @@ L'API Hub'Eau - Température des cours d'eau offre une source riche de données 
 
 #### 2. API Impacts environnementaux - AGRIBALYSE
 
-L'API Impacts environnementaux - AGRIBALYSE, fournie par l'ADEME, nous offre des indicateurs d'impacts environnementaux pour les produits agricoles et alimentaires en France. En utilisant cette API, nous avons pu explorer les impacts écologiques de la production alimentaire, tels que les émissions de gaz à effet de serre, le coût énergétique, etc.
+L'API Impacts environnementaux - AGRIBALYSE, fournie par l'ADEME, nous offre des indicateurs d'impacts environnementaux pour les produits agricoles et alimentaires en France. En utilisant cette API, nous avons pu explorer les impacts écologiques de la production alimentaire, tels que le changement climatique, le coût énergétique, etc.
 
 [Documentation API Impacts environnementaux - AGRIBALYSE](https://api.gouv.fr/documentation/api_agribalyse)
 
@@ -89,7 +85,7 @@ L'histogramme présente le nombre de stations de mesure de température des cour
 
 En effet, l'histogramme montre également une fonctionnalité interactive : **l'utilisation de sélecteurs** pour choisir un intervalle d'années. Cette option permet aux utilisateurs d'affiner leur analyse en se concentrant sur des périodes spécifiques.
 
-Après avoir analyser le résultat de cet histogramme, on peut conclure une forte mise en place de stations de mesure environnementale au début du XXe siècle, suivie d'une diminution jusqu'aux années 2000 où l'on observe une nouvelle augmentation significative. Cette tendance reflète probablement l'engagement envers la surveillance environnementale a fluctué au fil du temps, avec une attention renouvelée dans les années 2000.
+Après avoir analyser le résultat de cet histogramme, on peut conclure une forte mise en place de stations de mesure environnementale au début du XXe siècle, suivie d'une diminution jusqu'aux années 2000 où l'on observe une nouvelle augmentation significative.Cette tendance reflète probablement l'engagement envers la surveillance environnementale a varié au fil du temps, avec une attention renouvelée dans les années 2000.
 
 #### 2.2 Histogramme de distribution de la supercifie topographique des stations :
 
@@ -105,23 +101,23 @@ En analysant, on peut conclure qu'il y a une prédominance des petites stations 
 
 Cet hitogramme illustre l'impact environnemental des matériaux d'emballage, mesuré par le score unique EF.
 
-- **Axe horizontal (Score unique EF):** Affiche les valeurs de l'impact environnemental pour les différents
+- **Axe horizontal (Score unique EF):** Affiche les valeurs de l'impact environnemental pour les différents produits.
 - **Axe vertical (count):** Montre le nombre de fois qu'une certaine valeur de score EF a été enregistrée.
 - **Barres**: Chaque barre de couleur différente représente un matériau d'emballage distinct, tel que le verre, le carton, l'aluminium, le papier, et l'option de ne pas utiliser d'emballage.
 
 On note que Le score unique EF : Ce score reflète l'impact global d'un produit ou d'un service sur l'environnement, conformément aux directives établies par la Commission Européenne.
 
-Par conséquent on peut déduire que l'histogramme permet d'identifier les matériaux d'emballage qui sont les plus durables et à promouvoir leur utilisation pour minimiser l'impact environnemental des produits. Il semble que l'option 'Pas d'emballage' soit celle qui présente le plus souvent les scores EF les plus bas, ce qui suggère que réduire ou éliminer l'emballage pourrait être la stratégie la plus favorable à l'environnement.
+Par conséquent on peut déduire que l'histogramme permet d'identifier les matériaux d'emballage qui sont les plus durables et à promouvoir leur utilisation pour minimiser l'impact environnemental des produits.On constate que l'option 'Pas d'emballage' présente les scores EF les plus bas, ce qui suggère que réduire ou éliminer l'emballage pourrait être la stratégie la plus favorable à l'environnement.
 
 #### 2.4 : Histogramme Relation entre l'eutrophisation terrestre et l'utilisation du sol
 
 L'histogramme montre la relation entre l'eutrophisation terrestre et l'utilisation du sol par différents groupes d'aliments. L'eutrophisation terrestre est définie comme un enrichissement excessif des sols en nutriments, particulièrement en azote, qui peut perturber l'équilibre écologique et conduire à un appauvrissement de la biodiversité, affectant surtout les sols agricoles.
 
-- **L'axe horizontal :** Mesure l'indice d'eutrophisation terrestre pour les produits alimentaires,basé sur la quantité de nutriments ajoutés au sol par unité de production.
+- **L'axe horizontal :** Mesure l'indice d'eutrophisation terrestre pour les produits alimentaires,basé sur la quantité de nutriments ajoutés au sol par unité de production. (mol N eq)
 - **L'axe vertical :** Indique la somme de l'utilisation du sol, reflétant la quantité de terre utilisée pour produire ces aliments.
 - **Les barres colorées :** représentent différents groupes d'aliments et leur impact combiné sur l'eutrophisation et l'utilisation du sol.
 
-Après l'étude du résultat obtenue par l'histogramme,nous pouvons conclure qu'une barre haute sur l'histogramme indique qu'un groupe d'aliments spécifique a un impact relativement élevé sur l'eutrophisation terrestre et requiert une grande utilisation du sol pour sa production. Cela peut inciter à réfléchir sur les méthodes de production agricole et sur les choix de consommation afin de minimiser cet impact.En outre,l'histogramme peut être utilisé pour identifier quels groupes d'aliments sont les plus problématiques et pour orienter les efforts vers des pratiques agricoles plus durables et plus respectueuse de l'environnement.
+Après l'étude du résultat obtenue par l'histogramme,nous pouvons conclure qu'une barre haute sur l'histogramme indique qu'un groupe d'aliments spécifique a un impact relativement élevé sur l'eutrophisation terrestre et nécessite une grande utilisation du sol pour sa production. Cela peut inciter à réfléchir sur les méthodes de production agricole et sur les choix de consommation afin de minimiser cet impact.En outre,l'histogramme peut être utilisé pour identifier quels groupes d'aliments sont les plus problématiques et pour orienter les efforts vers des pratiques agricoles plus durables et plus respectueuse de l'environnement.
 
 #### 2.5 : Histogramme Influence des Sous-groupes Alimentaires sur le Changement Climatique et l'Appauvrissement de la Couche d'Ozone
 
@@ -160,19 +156,18 @@ Notre projet se structure autour de quatre répertoires principaux :
 
 3. **_Components_** : Ce répertoire joue un rôle clé dans la gestion des composants interactifs et des fonctionnalités de traitement des données du dashboard. Il contient notamment :
 
-   - `callbacks.py` : Ce fichier est essentiel pour définir les interactions au sein du dashboard. Il utilise les bibliothèques Dash et Plotly pour créer des rappels (callbacks) qui relient les actions de l'utilisateur (comme les sélections dans les menus déroulants ou les glisseurs) aux mises à jour des visualisations de données. Cela inclut la gestion des filtres pour les cartes, les histogrammes, et autres composants visuels interactifs du dashboard.
+   - `callbacks.py` : Ce fichier est essentiel pour définir les interactions au sein du dashboard. Il utilise les bibliothèques Dash et Plotly pour créer des rappels (callbacks) qui relient les actions de l'utilisateur (comme les sélections dans les menus déroulants ou les glisseurs) aux mises à jour des visualisations de données. Cela inclut la gestion des filtres pour la carte, les histogrammes, et autres composants visuels interactifs du dashboard.
 
-   - `function.py` : Ce fichier contient les fonctions principales utilisées par les callbacks pour mettre à jour les visualisations. Il s'occupe de traiter et de préparer les données pour les différents graphiques et cartes en fonction des entrées de l'utilisateur. Il tire parti des données préparées par le répertoire _Data_ et les transforme en visualisations interactives en utilisant Plotly.
+   - `function.py` : Ce fichier contient les fonctions principales utilisées par les callbacks pour mettre à jour les visualisations. Il s'occupe de traiter et de préparer les données pour les différents graphiques et cartes en fonction des entrées de l'utilisateur. Il tire parti des données préparées par le répertoire _Data_ et les transforme en visualisations interactives.
 
    Ces fichiers sont cruciaux pour la dynamique interactive du dashboard, permettant aux utilisateurs d'explorer et d'interagir avec les données de manière intuitive et réactive.
 
-4. **_assets_** : ce répertoire est dédiés à tous les images utilisés pour notre dashboard tels que le logo par exemple.
+4. **_assets_** : ce répertoire est dédiés à tous les images utilisés pour notre dashboard.
 
 En plus des répertoires mentionnés ci-dessus, notre projet comprend deux fichiers clés qui jouent un rôle crucial dans le lancement et la coordination de l'application :
 
 1. **`main.py`** : Ce fichier sert de point d'entrée principal pour l'application Dashboard. Il est responsable de :
 
-   - L'importation des modules nécessaires de Dash et des layouts de différentes pages.
    - La définition du layout global de l'application, qui inclut la barre de navigation et le contenu principal de la page.
    - La mise en place d'un callback pour la navigation dans l'application, permettant de changer le contenu affiché en fonction de l'URL.
    - Le lancement de l'application Dash en mode débogage.
@@ -192,6 +187,8 @@ Pour développer et étendre davantage le code de notre Dashboard Environnementa
    - Utilisez l'opération `chronique` de l'API Hub'Eau, qui permet de rechercher des chroniques (séries temporelles) de températures en continu dans les cours d'eau mesurées aux différentes stations.
 2. **Génération d'autre histogrammes**:
    - vous pouvez créer des histogramme supplémenatires tels que un histogramme de l'Impact sur l'Eutrophisation des Eaux Douces ou histogramme de distribution de la supercifie topographique des stations etc...
+
+Ces extensions peuvent non seulement améliorer la fonctionnalité et l'attrait du dashboard, mais aussi fournir des informations plus riches et engageantes pour les utilisateurs intéressés par les questions environnementales.
 
 > **Remarque importante sur l'utilisation des données de l'API Hub'Eau** :  
 > Pour optimiser le temps de réponse lors de l'utilisation des données de l'API Hub'Eau, nous avons mis en place un système de prétraitement des données dans le fichier `data_station.py`. Si vous souhaitez récupérer plus de données ou mettre à jour les données existantes, suivez ces étapes :

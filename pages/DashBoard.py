@@ -1,3 +1,4 @@
+# Importations princiaples
 from dash import html, dcc
 from components.callbacks import (
     region_dropdown,
@@ -11,9 +12,29 @@ from components.callbacks import (
 # Définition du layout (structure) de l'application pour le Dashboard
 layout_DashBoard = html.Div(
     children=[
-        html.H1("Dashboard Environnemental"),  # Titre principal du tableau de bord
-        html.Div(region_dropdown),  # Sélecteur de région
-        html.Div(dept_dropdown),  # Sélecteur de département
+        html.H1(
+            "Dashboard Environnemental",
+            style={
+                "color": "#006400",  # Taille de police grande mais pas écrasante
+                "fontWeight": "bold",  # Police en gras pour l'importance
+                "textShadow": "0px 2px 2px lightgrey",  # Ombre portée légère pour le relief
+                "textTransform": "uppercase",  # Texte en majuscules
+                "textAlign": "center",  # Alignement du texte au centre
+                "fontFamily": '"Open Sans", sans-serif',  # Police sans-serif moderne et lisible
+            },
+        ),  # Titre principal du tableau de bord
+        html.Div(
+            [
+                html.Div(region_dropdown),  # Sélecteur de région
+                html.Div(
+                    dept_dropdown,
+                ),  # Sélecteur de département
+            ],
+            style={
+                "width": "50%",
+                "margin": "auto",
+            },
+        ),
         html.Div(
             dcc.Graph(id="map_station", figure={}),
             style={"display": "flex", "justify-content": "center"},
@@ -47,11 +68,12 @@ layout_DashBoard = html.Div(
     ],
     style={
         "text-align": "center",
-        "font-size": 22,
-        "background-image": 'url("/assets/7609662.jpg")',  # Image de fond
-        "background-size": "cover",  # Ajuste la taille de l'image pour couvrir l'élément div
-        "width": "100%",  # Définir la largeur de l'élément div
-        "height": "100%",  # Définir la hauteur de l'élément div
-        "color": "black",  # Couleur du texte
+        "font-size": "22px",
+        "width": "100%",
+        "height": "100%",
+        "color": "#333",  # Couleur du texte sombre pour un contraste élevé avec un fond clair
+        "background": " #F5F5DC ",  # Couleur de fond légèrement grise pour un aspect doux et professionnel
+        "background-repeat": "no-repeat",
+        "background-attachment": "fixed",
     },
 )
