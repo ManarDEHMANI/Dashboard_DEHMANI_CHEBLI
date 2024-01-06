@@ -1,31 +1,38 @@
-# callbacks.py
+# Importations nécessaires pour utiliser les fonctionnalités de Dash et Plotly
+import dash
+from dash.dependencies import Input, Output
+import plotly.express as px
+from dash import html, dcc
+
+# Importations de modules locaux
 import components.function
 import data.get_data
-from dash.dependencies import Input, Output
-from dash import dcc
 from app import app
 
+# Récupération des données nécessaires pour les sélecteurs (dropdown)
 df = data.get_data.station()
 dataf = data.get_data.produits()
 
+# Création des options pour les sélecteurs de région et département à partir des données uniques
 region_options = [{"label": "Toutes les Régions", "value": "Toutes"}] + [
     {"label": r, "value": r} for r in df["Region"].unique()
 ]
 dept_options = [{"label": "Tous les Départements", "value": "Tous"}] + [
     {"label": d, "value": d} for d in df["Departement"].unique()
 ]
+
+# Création des options pour les sélecteurs de matériaux et de groupes d'aliments à partir des données souhaitées
 materiaux_options = [{"label": "Tous les matériaux d'emballlages", "value": "Tous"}] + [
     {"label": m, "value": m} for m in data.get_data.desired_materials
 ]
 group_options = [{"label": "Tous les groupes d'aliments", "value": "Tous"}] + [
     {"label": g, "value": g} for g in data.get_data.desired_aliments
 ]
-
 sous_group_options = [
     {"label": "Tous les sous groupes d'aliments", "value": "Tous"}
 ] + [{"label": sous_g, "value": sous_g} for sous_g in data.get_data.desired_sous_group]
 
-# Création des dropdowns pour sélectionner une région et un département
+# Création des sélecteurs (dropdown) pour le choix des régions, départements, matériaux, groupes et sous-groupes d'aliments
 region_dropdown = dcc.Dropdown(
     id="region-dropdown",
     options=region_options,
@@ -78,6 +85,7 @@ sous_group_dropdown = dcc.Dropdown(
         "margin": "auto",
     },
 )
+# Création d'un RangeSlider pour le choix de l'année avec des marques spécifiques
 years_with_step = list(
     range(df["annee_mise_en_service"].min(), df["annee_mise_en_service"].max() + 1, 20)
 )
@@ -96,6 +104,7 @@ year_slider = dcc.RangeSlider(
 )
 
 
+# Définition des callbacks pour la mise à jour des figures en fonction des sélections de l'utilisateur
 @app.callback(
     [
         Output(component_id="map_station", component_property="figure"),
@@ -107,6 +116,7 @@ year_slider = dcc.RangeSlider(
         Input(component_id="dept-dropdown", component_property="value"),
     ],
 )
+# Appel à la focntion update_map_and_selectors
 def maps(selected_region, selected_dept):
     data_map = components.function.update_map_and_selectors(
         selected_region, selected_dept
@@ -114,6 +124,7 @@ def maps(selected_region, selected_dept):
     return data_map
 
 
+# Callback pour mettre à jour l'histogramme du nombre de station par année mise en service en fonction de la sélection sur le RangeSlider
 @app.callback(
     Output(component_id="hist_annee", component_property="figure"),
     Input(component_id="range-slider-year", component_property="value"),
@@ -123,9 +134,9 @@ def histo_year(selected_years):
     return data_year
 
 
+# Callback pour la mise à jour de l'histogramme de la superficie topographique
 @app.callback(
     Output(component_id="hist_superficie", component_property="figure"),
-    # Ne pas utiliser selected_years pour filtrer les données
     Input(component_id="hist_superficie", component_property="figure"),
 )
 def histo_superficie(_):
@@ -133,6 +144,7 @@ def histo_superficie(_):
     return data_supercifie
 
 
+# Callback pour la mise à jour de l'histogramme du coût énergétique en fonction du matériau sélectionné
 @app.callback(
     Output(component_id="score_material", component_property="figure"),
     # Ne pas utiliser selected_years pour filtrer les données
@@ -145,9 +157,9 @@ def histo_cout_energetique(selected_material):
     return data_cout_energetique
 
 
+# Callback pour la mise à jour de l'histogramme de la relation entre l'eutrophisation terrestre et l'utilisation du sol en fonction du group sélectionné
 @app.callback(
-    Output(component_id="impact-climat-utilisation-sol", component_property="figure"),
-    # Ne pas utiliser selected_years pour filtrer les données
+    Output(component_id="eutrophisation-utilisation-sol", component_property="figure"),
     Input(component_id="groupe-dropdown", component_property="value"),
 )
 def histo_eutrophisation_sol(selected_group):
@@ -155,6 +167,9 @@ def histo_eutrophisation_sol(selected_group):
         selected_group
     )
     return data_climat_sol
+
+
+# Callback pour la mise à jour de l'histogramme d'influence des Sous-groupes Alimentaires sur le Changement Climatique et l'Appauvrissement de la Couche d'Ozone en fonction du sous group sélectionné
 
 
 @app.callback(
@@ -168,14 +183,17 @@ def histo_impact_climat_ozone(selected_sous_group):
     return data_climat_ozone
 
 
+# Callback pour la mise à jour du texte animé sur la page d'accueil
 @app.callback(
     Output("animated-text", "children"),
     Input("interval-component", "n_intervals"),
 )
 def update_text(n):
+    # Liste des textes à afficher de manière cyclique
     text_list = [
         "Bienvenue sur le tableau de bord environnemental!",
         "Explorez les données pour découvrir des informations intéressantes.",
         "Commencez votre voyage maintenant!",
     ]
+    # La fonction retourne un texte de la liste en fonction du compteur de l'Interval
     return text_list[n % len(text_list)]
