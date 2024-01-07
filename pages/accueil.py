@@ -7,7 +7,7 @@ from dash import html, dcc
 layout_acceuil = html.Div(
     # Définit le style de la division principale, qui couvrira l'écran entier (100vh pour 100% de la hauteur de la fenêtre)
     style={
-        "background-image": 'url("/assets/dash.jpg")',  # Image de fond tirée des ressources locales
+        "background-image": 'url("/assets/bg.avif")',  # Image de fond tirée des ressources locales
         "background-size": "cover",  # L'image de fond couvre toute la division
         "width": "100%",  # Largeur de la division à 100% de la fenêtre
         "height": "100vh",  # Hauteur de la division à 100% de la hauteur de la fenêtre

@@ -161,12 +161,15 @@ def update_histogram_cout_energetique(selected_material):
         df_filtered = df_filtered[
             df_filtered["Matériau_d'emballage"] == selected_material
         ]
-
+    title_text = (
+        "Impact Environnemental des Matériaux d'Emballage Évalué par le Score Unique EF"
+    )
     histogram_cout_energetique = px.histogram(
         df_filtered,
         x="Score_unique_EF",
         color="Matériau_d'emballage",
         nbins=30,
+        title=title_text,
         barmode="group",
     )
 

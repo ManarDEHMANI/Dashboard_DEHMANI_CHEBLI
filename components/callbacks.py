@@ -13,6 +13,10 @@ from app import app
 df = data.get_data.station()
 dataf = data.get_data.produits()
 
+dropdown_style = {
+    "width": "50%",
+    "margin": "auto",  # Blanc pour le texte
+}
 # Création des options pour les sélecteurs de région et département à partir des données uniques
 region_options = [{"label": "Toutes les Régions", "value": "Toutes"}] + [
     {"label": r, "value": r} for r in df["Region"].unique()
@@ -29,7 +33,10 @@ group_options = [{"label": "Tous les groupes d'aliments", "value": "Tous"}] + [
     {"label": g, "value": g} for g in data.get_data.desired_aliments
 ]
 sous_group_options = [
-    {"label": "Tous les sous groupes d'aliments", "value": "Tous"}
+    {
+        "label": "Tous les sous groupes d'aliments",
+        "value": "Tous",
+    }
 ] + [{"label": sous_g, "value": sous_g} for sous_g in data.get_data.desired_sous_group]
 
 # Création des sélecteurs (dropdown) pour le choix des régions, départements, matériaux, groupes et sous-groupes d'aliments
@@ -38,30 +45,21 @@ region_dropdown = dcc.Dropdown(
     options=region_options,
     value="Toutes",
     clearable=False,
-    style={
-        "width": "50%",
-        "margin": "auto",
-    },
+    style=dropdown_style,
 )
 dept_dropdown = dcc.Dropdown(
     id="dept-dropdown",
     options=dept_options,
     value="Tous",
     clearable=False,
-    style={
-        "width": "50%",
-        "margin": "auto",
-    },
+    style=dropdown_style,
 )
 material_dropdown = dcc.Dropdown(
     id="material-dropdown",
     options=materiaux_options,
     value="Tous",
     clearable=False,
-    style={
-        "width": "50%",
-        "margin": "auto",
-    },
+    style=dropdown_style,
 )
 
 group_dropdown = dcc.Dropdown(
@@ -69,10 +67,7 @@ group_dropdown = dcc.Dropdown(
     options=group_options,
     value="Tous",
     clearable=False,
-    style={
-        "width": "50%",
-        "margin": "auto",
-    },
+    style=dropdown_style,
 )
 
 sous_group_dropdown = dcc.Dropdown(
@@ -80,10 +75,7 @@ sous_group_dropdown = dcc.Dropdown(
     options=sous_group_options,
     value="Tous",
     clearable=False,
-    style={
-        "width": "50%",
-        "margin": "auto",
-    },
+    style=dropdown_style,
 )
 # Création d'un RangeSlider pour le choix de l'année avec des marques spécifiques
 years_with_step = list(
@@ -159,7 +151,7 @@ def histo_cout_energetique(selected_material):
 
 # Callback pour la mise à jour de l'histogramme de la relation entre l'eutrophisation terrestre et l'utilisation du sol en fonction du group sélectionné
 @app.callback(
-    Output(component_id="eutrophisation-utilisation-sol", component_property="figure"),
+    Output(component_id="utilisation-sol", component_property="figure"),
     Input(component_id="groupe-dropdown", component_property="value"),
 )
 def histo_eutrophisation_sol(selected_group):

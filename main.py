@@ -19,9 +19,10 @@ app.layout = html.Div(
         ),  # Gère la barre d'adresse et l'URL de la page
         navbar,  # Affiche la barre de navigation
         html.Div(
-            id="page-content"
+            id="page-content",
         ),  # Contenu de la page qui sera mis à jour par callback
-    ]
+    ],
+    style={"backgroundColor": "black"},
 )
 
 

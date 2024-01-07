@@ -16,7 +16,7 @@ layout_DashBoard = html.Div(
         # Titre principal du tableau de bord, centré avec une couleur spécifique et une marge
         html.H1(
             "Dashboard Environnemental",
-            style={"text-align": "center", "color": "#6B8E23", "margin-bottom": "50px"},
+            style={"text-align": "center", "color": "black", "margin-bottom": "50px"},
         ),
         # Conteneur pour les sélecteurs de région et de département, avec style pour ajustement de largeur et marge automatique
         html.Div(
@@ -39,17 +39,26 @@ layout_DashBoard = html.Div(
                 "height": "600px",
             },
         ),
-        # Composant de curseur pour sélectionner l'année
-        html.Div(year_slider),
-        # Conteneur pour les histogrammes, avec un affichage en flex (ligne) et hauteur définie
+        # Conteneur pour deux autres graphiques, chacun prenant la moitié de la largeur, avec défilement si nécessaire
         html.Div(
             [
-                # Histogramme pour l'année de mise en service avec un design réactif
                 html.Div(
-                    [dcc.Graph(id="hist_annee", figure={}, responsive=True)],
-                    style={"width": "100%", "height": "500px", "overflow": "auto"},
+                    [
+                        dcc.Graph(id="hist_annee", figure={}, responsive=True),
+                        html.Div(
+                            year_slider,
+                            style={
+                                "padding": "10px",
+                            },
+                        ),
+                    ],
+                    style={
+                        "padding-bottom": "10px",
+                        "width": "100%",
+                        "height": "500px",
+                        "overflow": "auto",
+                    },
                 ),
-                # Histogramme pour la superficie topographique avec un design réactif
                 html.Div(
                     [dcc.Graph(id="hist_superficie", figure={}, responsive=True)],
                     style={"width": "100%", "height": "500px", "overflow": "auto"},
@@ -57,13 +66,12 @@ layout_DashBoard = html.Div(
             ],
             style={"display": "flex"},
         ),
-        # Conteneur pour les sélecteurs de matériaux d'emballage et de groupes d'aliments, avec un fond gris et un affichage en flex
+        # Sélecteur de matériaux d'emballage et de groupe d'aliment
         html.Div(
             className="bg-grey",
             children=[material_dropdown, group_dropdown],
             style={"display": "flex"},
         ),
-        # Conteneur pour deux autres graphiques, chacun prenant la moitié de la largeur, avec défilement si nécessaire
         html.Div(
             children=[
                 # Histogramme pour le coût énergétique des matériaux
@@ -73,7 +81,7 @@ layout_DashBoard = html.Div(
                 ),
                 # Histogramme pour l'impact climatique sur l'utilisation du sol
                 html.Div(
-                    [dcc.Graph(id="eutrophisation-utilisation-sol", figure={})],
+                    [dcc.Graph(id="utilisation-sol", figure={})],
                     style={"width": "100%", "height": "500px", "overflow": "auto"},
                 ),
             ],

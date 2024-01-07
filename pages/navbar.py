@@ -2,21 +2,24 @@ from dash import dcc, html
 
 # Définition du style de la barre de navigation
 navbar_style = {
-    "background-color": "#333",
-    "padding": "10px",
+    "background-color": "#020305",
+    "padding": "10px 0",
     "text-align": "center",
 }
 
 nav_link_style = {
     "display": "inline-block",
-    "margin-right": "10px",
+    "margin-right": "20px",
     "text-decoration": "none",
     "color": "white",
     "text-align": "center",
+    "font-size": "18px",
 }
 
-# Style de l'icone
+# Style de l'icône (logo)
 nav_img_style = {
+    "height": "50px",
+    "vertical-align": "middle",
     "margin-right": "10px",
 }
 
